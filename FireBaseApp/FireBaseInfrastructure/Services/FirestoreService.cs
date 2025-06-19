@@ -66,6 +66,7 @@ public class FirestoreService : IFireStoreService
 
     public async Task SaveStudentAsync(Student student)
     {
-        await _firestore.Collection("Students").AddAsync(student);
+        await _firestore
+            .Collection("Students").AddAsync(student);
     }
 }
