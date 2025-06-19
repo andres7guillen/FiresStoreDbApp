@@ -9,12 +9,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Google.Cloud.Firestore" Version="3.10.0" />
+    <PackageReference Include="Google.Cloud.Firestore.V1" Version="3.10.0" />
+    <PackageReference Include="Grpc.Auth" Version="2.71.0" />
+    <PackageReference Include="Grpc.Core" Version="2.46.6" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.6" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <ProjectReference Include="..\FireBaseDomain\FireBaseDomain.csproj" />
+    <ProjectReference Include="..\FireBaseInfrastructure\FireBaseInfrastructure.csproj" />
   </ItemGroup>
 
 </Project>
