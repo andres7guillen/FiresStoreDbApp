@@ -1,4 +1,7 @@
-﻿using FireBaseDomain.Entities;
+﻿using CSharpFunctionalExtensions;
+using FireBaseDomain.DTO;
+using FireBaseDomain.Entities;
+using FireBaseDomain.Repositories;
 using FireBaseDomain.Services;
 using Google.Cloud.Firestore;
 using Microsoft.AspNetCore.Http;
@@ -9,10 +12,10 @@ namespace FireBaseInfrastructure.Services;
 
 public class FirestoreService : IFireStoreService
 {
-    private readonly FirestoreDb _firestore;
-    public FirestoreService(IConfiguration configuration, FirestoreDb firestore)
+    private readonly IFireStoreRepository _repository;
+    public FirestoreService(IConfiguration configuration, FirestoreDb firestore, IFireStoreRepository repository)
     {
-        _firestore = firestore;
+        _repository = repository;
     }
 
     public async Task ImportStudentsFromCsvAsync(IFormFile file)
@@ -66,7 +69,26 @@ public class FirestoreService : IFireStoreService
 
     public async Task SaveStudentAsync(Student student)
     {
-        await _firestore
-            .Collection("Students").AddAsync(student);
+        await _repository.SaveStudentAsync(student);
+    }
+
+    public async Task<List<StudentDto>> GetAllStudentsAsync()
+    {
+        return await _repository.GetAllStudentsAsync();
+    }
+
+    public async Task<Maybe<StudentDto>> GetStudentByIdAsync(string id)
+    {
+        return await _repository.GetStudentByIdAsync(id);
+    }
+
+    public async Task UpdateStudentAsync(string id, Student student)
+    {
+        await _repository.UpdateStudentAsync(id, student);
+    }
+
+    public async Task DeleteStudentAsync(string id)
+    {
+        await _repository.DeleteStudentAsync(id);
     }
 }

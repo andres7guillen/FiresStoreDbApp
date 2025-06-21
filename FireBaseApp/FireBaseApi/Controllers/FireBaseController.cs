@@ -1,10 +1,7 @@
-﻿using FireBaseDomain.Entities;
+﻿using FireBaseDomain.DTO;
+using FireBaseDomain.Entities;
 using FireBaseDomain.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Formats.Asn1;
-using System.Globalization;
-using System.Text;
 
 namespace FireBaseApi.Controllers;
 
@@ -34,6 +31,39 @@ public class FireBaseController : ControllerBase
         {
             return BadRequest($"Error procesando el archivo: {ex.Message}");
         }
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAll()
+    {
+        var students = await _firestoreService.GetAllStudentsAsync();
+        return Ok(students);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> Get(string id)
+    {
+        var student = await _firestoreService.GetStudentByIdAsync(id);
+        if (student == null) return NotFound();
+        return Ok(student);
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update(string id, [FromBody] StudentDto dto)
+    {
+        var student = Student.Create(
+            dto.Name, dto.LastName, dto.Phone, dto.Age, dto.Email,
+            dto.Address, dto.University, dto.Semester, dto.Time, dto.Gender
+        );
+        await _firestoreService.UpdateStudentAsync(id, student);
+        return NoContent();
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(string id)
+    {
+        await _firestoreService.DeleteStudentAsync(id);
+        return NoContent();
     }
 
 }
