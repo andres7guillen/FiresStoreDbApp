@@ -5,6 +5,8 @@ using Google.Cloud.Firestore;
 using Google.Cloud.Firestore.V1;
 using Grpc.Net.Client;
 using Grpc.Auth;
+using FireBaseDomain.Repositories;
+using FireBaseInfrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +30,7 @@ FirestoreDb firestoreDb = FirestoreDb.Create(projectId, firestoreClient);
 
 builder.Services.AddSingleton(firestoreDb);
 builder.Services.AddScoped<IFireStoreService, FirestoreService>();
+builder.Services.AddScoped<IFireStoreRepository, FireStoreRepository>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
