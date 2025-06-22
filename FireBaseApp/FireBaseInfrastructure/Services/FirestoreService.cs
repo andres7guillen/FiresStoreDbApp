@@ -10,10 +10,10 @@ using System.Text;
 
 namespace FireBaseInfrastructure.Services;
 
-public class FirestoreService : IFireStoreService
+public class FireStoreService : IFireStoreService
 {
     private readonly IFireStoreRepository _repository;
-    public FirestoreService(IConfiguration configuration, FirestoreDb firestore, IFireStoreRepository repository)
+    public FireStoreService(IConfiguration configuration, FirestoreDb firestore, IFireStoreRepository repository)
     {
         _repository = repository;
     }
