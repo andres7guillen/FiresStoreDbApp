@@ -29,8 +29,12 @@ FirestoreDb firestoreDb = FirestoreDb.Create(projectId, firestoreClient);
 // Add services to the container.
 
 builder.Services.AddSingleton(firestoreDb);
-builder.Services.AddScoped<IFireStoreService, FirestoreService>();
+builder.Services.AddScoped<IFireStoreService, FireStoreService>();
 builder.Services.AddScoped<IFireStoreRepository, FireStoreRepository>();
+
+builder.Services.AddScoped<IFireStoreServiceUsu, FireStoreServiceUsu>();
+builder.Services.AddScoped<IFireStoreRepositoryUsu, FireStoreRepositoryUsu>();
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
