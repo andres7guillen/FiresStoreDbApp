@@ -91,4 +91,7 @@ public class FireStoreService : IFireStoreService
     {
         await _repository.DeleteStudentAsync(id);
     }
+
+    public async Task<List<StudentDto>> GetStudentsByFilterAsync(string fieldName, string fieldValue) => await _repository.GetStudentsByFilterAsync(fieldName, fieldValue);
+    
 }

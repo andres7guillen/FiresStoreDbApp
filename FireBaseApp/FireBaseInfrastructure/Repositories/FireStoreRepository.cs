@@ -102,4 +102,69 @@ public class FireStoreRepository : IFireStoreRepository
         DocumentReference docRef = _firestore.Collection(_collectionName).Document(id);
         await docRef.DeleteAsync();
     }
+
+    public async Task<List<StudentDto>> GetStudentsByFilterAsync(string fieldName, string fieldValue)
+    {
+        object valueToQuery = string.IsNullOrEmpty;
+        switch (fieldName.ToLower())
+        {
+
+
+            case "edad" or "idUsuario" or "semestre":
+
+                if (int.TryParse(fieldValue, out int intValue))
+                {
+                    valueToQuery = intValue;
+                }
+
+                break;
+            case "telefono":
+                if (long.TryParse(fieldValue, out long longValue))
+                {
+                    valueToQuery = longValue;
+                }
+
+                break;
+
+            default:
+
+                valueToQuery = fieldValue;
+                break;
+        }
+
+
+
+        Query query = _firestore.Collection(_collectionName)
+                                 .WhereEqualTo(fieldName, valueToQuery);
+
+        QuerySnapshot snapshot = await query.GetSnapshotAsync();
+        var result = new List<StudentDto>();
+        foreach (var document in snapshot.Documents)
+        {
+            try
+            {
+                var student = document.ConvertTo<Student>();
+                result.Add(new StudentDto
+                {
+                    Id = document.Id,
+                    Name = student.Name,
+                    LastName = student.LastName,
+                    Phone = student.Phone,
+                    Age = student.Age,
+                    Email = student.Email,
+                    Address = student.Address,
+                    University = student.University,
+                    Semester = student.Semester,
+                    Time = student.Time,
+                    Gender = student.Gender
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error en documento {document.Id}: {ex.Message}");
+            }
+        }
+
+        return result;
+    }
 }

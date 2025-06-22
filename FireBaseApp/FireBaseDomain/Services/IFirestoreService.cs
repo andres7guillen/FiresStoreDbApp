@@ -13,4 +13,5 @@ public interface IFireStoreService
     Task<Maybe<StudentDto>> GetStudentByIdAsync(string id); 
     Task UpdateStudentAsync(string id, Student student); 
     Task DeleteStudentAsync(string id);
+    Task<List<StudentDto>> GetStudentsByFilterAsync(string fieldName, string fieldValue);
 }

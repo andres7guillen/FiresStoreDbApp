@@ -66,4 +66,23 @@ public class FireBaseController : ControllerBase
         return NoContent();
     }
 
+    [HttpGet("filter")] 
+    public async Task<IActionResult> GetSomeFilters([FromQuery] string fieldName, [FromQuery] string fieldValue)
+    {
+        var usuarioResult = await _firestoreService.GetStudentsByFilterAsync(fieldName, fieldValue);
+
+        if (usuarioResult == null)
+        {
+
+            return StatusCode(500, "Error while getting Students");
+        }
+
+        if (usuarioResult.Count == 0)
+        {
+            return NotFound();
+        }
+
+        return Ok(usuarioResult);
+    }
+
 }
